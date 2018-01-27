@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : MonoBehaviour, IPlayer {
-
-    float IPlayer.speedX { get; set; }
-    float IPlayer.speedY { get; set; }
+public class Player2 : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
