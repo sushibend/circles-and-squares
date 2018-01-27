@@ -31,7 +31,7 @@ public class Player1 : MonoBehaviour, IPlayer {
 			pos.y += SPEED;
 		this.transform.position = pos;
 
-		/*
+        /*
 		mouse_pos = Input.mousePosition;
 		mouse_pos.x = mouse_pos.x - pos.x;
 		mouse_pos.y = mouse_pos.y - pos.y;
@@ -45,8 +45,10 @@ public class Player1 : MonoBehaviour, IPlayer {
 		this.transform.rotation = Quaternion.Euler (0, 0, AngleDeg);
 		*/
 
-		Vector3 LookPos = new Vector3 (0, 0, transform.position.z);
-		gameObject.transform.LookAt (LookPos);
-	
-	}
+        var mouse = Input.mousePosition;
+        var screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
+        var offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
+        var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
 }
