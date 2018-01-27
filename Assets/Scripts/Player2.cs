@@ -7,6 +7,7 @@ public class Player2 : MonoBehaviour {
 	const float SPEED = 0.1f;
 	public GameObject bulletPrefab;
 	const float BULLET_FORCE = 1000f;
+	public GameObject gun;
 
 	Vector2 offset = new Vector2(1f,0);
 
@@ -38,7 +39,7 @@ public class Player2 : MonoBehaviour {
 			transform.rotation = Quaternion.Euler (0, 0, angle);
 		}
 
-		if (Input.GetButtonDown("Fire1")){//when the left mouse button is clicked
+		if (Input.GetButtonDown("Fire1") && !Input.GetMouseButtonDown(0)){//when the left mouse button is clicked
 			FireBullet(offset.normalized);//look for and use the fire bullet operation
 		}
 	}
@@ -46,10 +47,20 @@ public class Player2 : MonoBehaviour {
 	public void FireBullet(Vector2 v){
 		//spawning the bullet at position
 		GameObject Clone;
-		Clone = (Instantiate(bulletPrefab, transform.position+1f*transform.forward,this.transform.rotation));
+		Clone = (Instantiate(bulletPrefab, gun.transform.position+1f*transform.forward,this.transform.rotation));
 		Destroy (Clone, 5f);
 
 		//add force to the spawned objected
 		Clone.GetComponent<Rigidbody2D>().AddForce(new Vector2(BULLET_FORCE * v.x, BULLET_FORCE * v.y));
 	}
+
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if(col.gameObject.name == "bullet(Clone)")
+		{
+			Destroy(col.gameObject);
+			Debug.Log ("p2 hit");
+		}
+	}
+
 }

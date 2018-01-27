@@ -7,10 +7,12 @@ public class Player1 : MonoBehaviour {
     
 	const float SPEED = 0.1f;
 	public GameObject bulletPrefab;
+	public GameObject gun;
+
 	const float BULLET_FORCE = 1000f;
     // Use this for initialization
     void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
@@ -40,10 +42,18 @@ public class Player1 : MonoBehaviour {
 
 		//spawning the bullet at position
 		GameObject Clone;
-		Clone = (Instantiate(bulletPrefab, transform.position+1f*transform.forward,this.transform.rotation));
+		Clone = (Instantiate(bulletPrefab, gun.transform.position+1f*transform.forward,this.transform.rotation));
 		Destroy (Clone, 5f);
 
 		//add force to the spawned objected
 		Clone.GetComponent<Rigidbody2D>().AddForce(new Vector2(BULLET_FORCE * v.x, BULLET_FORCE * v.y));
+	}
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if(col.gameObject.name == "bullet(Clone)")
+		{
+			Destroy(col.gameObject);
+			Debug.Log ("p1 hit");
+		}
 	}
 }
