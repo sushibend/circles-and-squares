@@ -31,11 +31,11 @@ public class Player2 : MonoBehaviour {
 
 
 		this.transform.position = pos;	
-
-		var mouse = Input.mousePosition;
-		var screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
-		var offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
-		var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-		transform.rotation = Quaternion.Euler(0, 0, angle);
+	
+		if (Input.GetAxis ("RightStickH") != 0 || Input.GetAxis ("RightStickV") != 0) {
+			var offset = new Vector2 (Input.GetAxis ("RightStickH"), Input.GetAxis ("RightStickV"));
+			var angle = Mathf.Atan2 (offset.y, offset.x) * Mathf.Rad2Deg;
+			transform.rotation = Quaternion.Euler (0, 0, angle);
+		}
 	}
 }
