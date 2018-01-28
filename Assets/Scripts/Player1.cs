@@ -11,6 +11,7 @@ public class Player1 : MonoBehaviour {
 	public enum Gun { MAGNET, OTHER }
 	public Gun gun = Gun.MAGNET;
 	public GameObject gunObject;
+	public GameObject body;
 
     // Animation/Image
     public Sprite idle;
@@ -29,6 +30,7 @@ public class Player1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
         if (hitStatus == true && hitFrames == 30)
         {
             temp = GetComponent<SpriteRenderer>().sprite;
@@ -38,7 +40,7 @@ public class Player1 : MonoBehaviour {
             hitFrames--;
         if (hitStatus == true && hitFrames == 0)
         {
-            hitFrames = 3;
+            hitFrames = 30;
             hitStatus = false;
             GetComponent<SpriteRenderer>().sprite = temp;
         }
@@ -73,6 +75,7 @@ public class Player1 : MonoBehaviour {
         var offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+		body.transform.rotation = Quaternion.Euler (0, 0, 0);
 		if (Input.GetMouseButtonDown(0)){//when the left mouse button is clicked
 			FireBullet(offset.normalized);//look for and use the fire bullet operation
     	}

@@ -11,6 +11,7 @@ public class Player2 : MonoBehaviour {
 	public enum Gun { MAGNET, OTHER }
 	public Gun gun = Gun.MAGNET;
 	public GameObject gunObject;
+	public GameObject body;
 
     // Animation/Image
     public Sprite idle;
@@ -31,6 +32,7 @@ public class Player2 : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
         if (hitStatus == true && hitFrames == 30)
         {
             temp = GetComponent<SpriteRenderer>().sprite;
@@ -40,7 +42,7 @@ public class Player2 : MonoBehaviour {
             hitFrames--;
         if (hitStatus == true && hitFrames == 0)
         {
-            hitFrames = 3;
+            hitFrames = 30;
             hitStatus = false;
             GetComponent<SpriteRenderer>().sprite = temp;
         }
@@ -76,6 +78,7 @@ public class Player2 : MonoBehaviour {
 			offset = new Vector2 (Input.GetAxis ("RightStickH"), Input.GetAxis ("RightStickV"));
 			var angle = Mathf.Atan2 (offset.y, offset.x) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Euler (0, 0, angle);
+			body.transform.rotation = Quaternion.Euler (0, 0, 0);
 		}
 
 		if (Input.GetButtonDown("Fire1") && !Input.GetMouseButtonDown(0)){//when the left mouse button is clicked
