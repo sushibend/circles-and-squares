@@ -83,6 +83,7 @@ public class Player2 : MonoBehaviour {
 
 		if (Input.GetButtonDown("Fire1") && !Input.GetMouseButtonDown(0)){//when the left mouse button is clicked
 			FireBullet(offset.normalized);//look for and use the fire bullet operation
+			this.GetComponent<AudioSource>().Play();
 		}
 	}
 
@@ -101,6 +102,8 @@ public class Player2 : MonoBehaviour {
 		if(col.gameObject.tag == "bullet")
 		{
 			Destroy(col.gameObject);
+			Destroy (this.gameObject);
+
 			Debug.Log ("p2 hit");
 		}
 	}

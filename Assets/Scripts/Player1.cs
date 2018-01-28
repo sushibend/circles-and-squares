@@ -78,6 +78,7 @@ public class Player1 : MonoBehaviour {
 		body.transform.rotation = Quaternion.Euler (0, 0, 0);
 		if (Input.GetMouseButtonDown(0)){//when the left mouse button is clicked
 			FireBullet(offset.normalized);//look for and use the fire bullet operation
+			this.GetComponent<AudioSource>().Play();
     	}
 	}
 
@@ -96,6 +97,7 @@ public class Player1 : MonoBehaviour {
 		{
             hitStatus = true;
             Destroy(col.gameObject);
+			Destroy (this.gameObject);
 			Debug.Log ("p1 hit");
         }
 	}
