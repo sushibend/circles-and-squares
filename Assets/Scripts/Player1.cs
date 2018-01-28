@@ -12,14 +12,52 @@ public class Player1 : MonoBehaviour {
 	public Gun gun = Gun.MAGNET;
 	public GameObject gunObject;
 
+    // Animation/Image
+    public Sprite idle;
+    public Sprite walking;
+    public Sprite hit;
+    Sprite temp;
+
+    // Hit status
+    int hitFrames = 30;
+    bool hitStatus = false;
+
     // Use this for initialization
     void Start () {
-
-	}
+        transform.localScale = new Vector3(.2f, .2f, 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 pos = this.transform.position;
+        if (hitStatus == true && hitFrames == 30)
+        {
+            temp = GetComponent<SpriteRenderer>().sprite;
+            GetComponent<SpriteRenderer>().sprite = hit;
+        }
+        if (hitStatus == true)
+            hitFrames--;
+        if (hitStatus == true && hitFrames == 0)
+        {
+            hitFrames = 3;
+            hitStatus = false;
+            GetComponent<SpriteRenderer>().sprite = temp;
+        }
+
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
+            Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W)) &&
+            !hitStatus)
+        {
+            GetComponent<SpriteRenderer>().sprite = walking;
+        }
+
+        if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) ||
+            Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W)) &&
+            !hitStatus)
+        {
+            GetComponent<SpriteRenderer>().sprite = idle;
+        }
+
+        Vector3 pos = this.transform.position;
 		if (Input.GetKey (KeyCode.A))
 			pos.x -= SPEED;
 		if (Input.GetKey (KeyCode.D))
@@ -41,7 +79,6 @@ public class Player1 : MonoBehaviour {
 	}
 
 	public void FireBullet(Vector2 v){
-
 		//spawning the bullet at position
 		GameObject Clone;
 		Clone = (Instantiate(bulletPrefab, gunObject.transform.position+1f*transform.forward,this.transform.rotation));
@@ -54,8 +91,9 @@ public class Player1 : MonoBehaviour {
 	{
 		if(col.gameObject.tag == "bullet")
 		{
-			Destroy(col.gameObject);
+            hitStatus = true;
+            Destroy(col.gameObject);
 			Debug.Log ("p1 hit");
-		}
+        }
 	}
 }

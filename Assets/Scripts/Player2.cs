@@ -12,16 +12,52 @@ public class Player2 : MonoBehaviour {
 	public Gun gun = Gun.MAGNET;
 	public GameObject gunObject;
 
-	Vector2 offset = new Vector2(1f,0);
+    // Animation/Image
+    public Sprite idle;
+    public Sprite walking;
+    public Sprite hit;
+    Sprite temp;
+
+    // Hit status
+    int hitFrames = 30;
+    bool hitStatus = false;
+
+    Vector2 offset = new Vector2(1f,0);
 
 	// Use this for initialization
 	void Start () {
-
-	}
+        transform.localScale = new Vector3(.2f, .2f, 0);
+    }
 
 	// Update is called once per frame
 	void Update () {
-		Vector3 pos = this.transform.position;
+        if (hitStatus == true && hitFrames == 30)
+        {
+            temp = GetComponent<SpriteRenderer>().sprite;
+            GetComponent<SpriteRenderer>().sprite = hit;
+        }
+        if (hitStatus == true)
+            hitFrames--;
+        if (hitStatus == true && hitFrames == 0)
+        {
+            hitFrames = 3;
+            hitStatus = false;
+            GetComponent<SpriteRenderer>().sprite = temp;
+        }
+
+        if ((Input.GetAxis("LeftStickH") != 0 || Input.GetAxis("LeftStickH") != 0) &&
+            GetComponent<SpriteRenderer>().sprite != walking)
+        {
+            GetComponent<SpriteRenderer>().sprite = walking;
+        }
+
+        if ((Input.GetAxis("LeftStickH") == 0 || Input.GetAxis("LeftStickH") == 0) &&
+            GetComponent<SpriteRenderer>().sprite != idle)
+        {
+            GetComponent<SpriteRenderer>().sprite = idle;
+        }
+
+        Vector3 pos = this.transform.position;
 		if (Input.GetAxis ("LeftStickH") > 0) {
 			pos.x += SPEED;
 		} 
